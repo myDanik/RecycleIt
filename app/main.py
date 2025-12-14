@@ -1,14 +1,16 @@
 from fastapi import FastAPI
+import time
 from app.api.routers import include_routers
 from app.config import settings
-import time
+from app.db.session import engine, Base
 
 
 _start_time = time.time()
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title="Recycling Points API", version=settings.APP_VERSION)
+    Base.metadata.create_all(bind=engine)
+    app = FastAPI(title=settings.APP_NAME, version=settings.APP_VERSION)
     include_routers(app)
 
     @app.get("/")

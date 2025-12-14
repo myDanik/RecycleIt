@@ -10,4 +10,8 @@ router = APIRouter()
 async def health_check(request: Request):
     start_time = getattr(request.app.state, "start_time", time.time())
     uptime_seconds = int(time.time() - start_time)
-    return {"status": "ok", "uptime_seconds": uptime_seconds, "timestamp": datetime.utcnow().isoformat()}
+    return {
+        "status": "ok",
+        "uptime_seconds": uptime_seconds,
+        "timestamp": datetime.utcnow().isoformat(),
+    }
