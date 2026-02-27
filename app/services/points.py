@@ -1,6 +1,6 @@
 from typing import List, Optional
 from sqlalchemy.orm import Session
-from sqlalchemy import select, and_
+from sqlalchemy import select, and_, or_
 from datetime import datetime, time as time_obj
 from app.db.models import Point
 from app.schemas.points import PointBase
@@ -42,14 +42,25 @@ def list_points(
     db: Session,
     skip: int = 0,
     limit: int = 50,
-    waste_type: Optional[str] = None,
+    q: Optional[str] = None,
+    waste_type: Optional[str] = None, 
     open_now: Optional[bool] = None,
 ) -> List[Point]:
 
     stmt = select(Point)
     filters = []
+
+    if q:
+        filters.append(
+            or_(
+                Point.name.ilike(f"%{q}%"),
+                Point.address.ilike(f"%{q}%")
+            )
+        )
+
     if waste_type:
         filters.append(Point.waste_types.any(waste_type))
+
     if open_now:
         now = datetime.utcnow().time()
         filters.append(Point.opens_at <= now)
@@ -57,8 +68,8 @@ def list_points(
 
     if filters:
         stmt = stmt.where(and_(*filters))
-    stmt = stmt.offset(skip).limit(limit)
 
+    stmt = stmt.offset(skip).limit(limit)
     rows = db.execute(stmt).scalars().all()
     return rows
 

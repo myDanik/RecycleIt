@@ -65,7 +65,9 @@ class Feedback(Base):
     point_id = Column(
         Integer, ForeignKey("points.id", ondelete="CASCADE"), nullable=False, index=True
     )
-    user_name = Column(String(255), nullable=True)
+    user_id = Column(
+        Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
     message = Column(Text, nullable=False)
     rating = Column(SmallInteger, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())

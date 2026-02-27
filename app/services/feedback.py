@@ -4,10 +4,10 @@ from app.db.models import Feedback
 from app.schemas.feedback import FeedbackCreate
 
 
-def create_feedback(db: Session, data: FeedbackCreate) -> Feedback:
+def create_feedback(db: Session, data: FeedbackCreate, user_id: int) -> Feedback:
     fb = Feedback(
         point_id=data.point_id,
-        user_name=data.user_name,
+        user_id=user_id,
         message=data.message,
         rating=data.rating,
     )

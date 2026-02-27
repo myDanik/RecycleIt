@@ -5,20 +5,23 @@ from typing import Optional, List
 from app.schemas.points import PointBase
 from app.services import points
 from app.db.session import get_db
+from app.auth.deps import get_current_user
+
 
 router = APIRouter()
 
 
 @router.get("/")
-async def list_points(
+async def get_points(
     db: Session = Depends(get_db),
-    waste_type: Optional[str] = Query(None),
-    open_now: Optional[bool] = Query(None),
-    page: int = 1,
-    size: int = 20,
+    q: Optional[str] = Query(None, description="Search by name or address"),
+    waste_type: Optional[str] = Query(None, description="Filter by waste type"),
+    open_now: Optional[bool] = Query(False, description="Filter points that are currently open"),
+    skip: int = 0,
+    limit: int = 50,
 ):
     p = points.list_points(
-        db, skip=(page - 1) * size, limit=size, waste_type=waste_type, open_now=open_now
+        db, skip=skip, limit=limit, q=q, waste_type=waste_type, open_now=open_now
     )
     return p
 

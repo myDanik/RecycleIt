@@ -5,6 +5,10 @@ from typing import Optional, List
 from app.schemas.feedback import FeedbackCreate, FeedbackRead
 from app.services import feedback as feedback_service
 from app.db.session import get_db
+from app.auth.deps import get_current_user
+from app.services.feedback import create_feedback
+
+
 
 router = APIRouter()
 

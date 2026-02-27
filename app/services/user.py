@@ -90,3 +90,11 @@ def delete_user(db: Session, user_id: int) -> bool:
         db.rollback()
         raise
     return True
+
+def authenticate_user(db: Session, username: str, password: str) -> Optional[User]:
+    user = get_user_by_username(db, username)
+    if not user:
+        return None
+    if not _verify_password(password, user.password_hash):
+        return None
+    return user

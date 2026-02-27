@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import time
 from app.api.routers import include_routers
 from app.config import settings
@@ -13,6 +14,7 @@ def create_app() -> FastAPI:
     app = FastAPI(title=settings.APP_NAME, version=settings.APP_VERSION)
     include_routers(app)
 
+
     @app.get("/")
     async def root():
         return {"message": "Recycling Points API. See /docs and /health"}
@@ -22,3 +24,11 @@ def create_app() -> FastAPI:
 
 
 app = create_app()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)

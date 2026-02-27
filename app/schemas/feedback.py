@@ -6,7 +6,6 @@ from datetime import datetime
 
 class FeedbackCreate(BaseModel):
     point_id: int
-    user_name: Optional[str]
     message: str
     rating: Optional[int]
 
@@ -14,7 +13,7 @@ class FeedbackCreate(BaseModel):
 class FeedbackRead(BaseModel):
     id: int
     point_id: int
-    user_name: Optional[str]
+    user_id: int
     message: str
     rating: Optional[int]
     created_at: datetime

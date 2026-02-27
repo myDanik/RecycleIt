@@ -1,9 +1,12 @@
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
-from app.core.security import decode_token
+from app.auth.jwt_utils import decode_token
 from app.db.session import get_db
-from app.services.user import get_user_by_id
+from app.services.user import get_user
+from app.schemas.user import UserBase
+
+
 
 security = HTTPBearer()
 
@@ -18,7 +21,7 @@ def get_current_user(
         )
 
     user_id = int(payload["sub"])
-    user = get_user_by_id(db, user_id)
+    user = get_user(db, user_id)
     if not user:
         raise HTTPException(status_code=401, detail="User not found")
 
@@ -27,7 +30,7 @@ def get_current_user(
 
 def require_same_user(
     user_id: int,
-    current_user: User = Depends(get_current_user),
+    current_user: UserBase = Depends(get_current_user),
 ):
     if current_user.id != user_id:
         raise HTTPException(
