@@ -5,6 +5,7 @@ from app.auth.jwt_utils import decode_token
 from app.db.session import get_db
 from app.services.user import get_user
 from app.schemas.user import UserBase
+from app.db.models import UserRole
 
 
 
@@ -38,3 +39,16 @@ def require_same_user(
             detail="You can access only your own profile",
         )
     return current_user
+
+def get_admin_user(user=Depends(get_current_user)):
+    if user.role != "admin":
+        raise HTTPException(status_code=403, detail="Access forbidden")
+    return user
+
+def require_self_or_admin(
+    user_id: int,
+    user=Depends(get_current_user)
+):
+    if user.role != UserRole.admin and user.id != user_id:
+        raise HTTPException(status_code=403, detail="Access forbidden")
+    return user

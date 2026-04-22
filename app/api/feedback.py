@@ -5,7 +5,7 @@ from typing import Optional, List
 from app.schemas.feedback import FeedbackCreate, FeedbackRead
 from app.services import feedback as feedback_service
 from app.db.session import get_db
-from app.auth.deps import get_current_user
+from app.auth.deps import get_current_user, get_admin_user
 from app.services.feedback import create_feedback
 
 
@@ -38,8 +38,8 @@ async def get_feedback(
     return fb
 
 
-# @router.delete("/{feedback_id}")
-async def delete_feedback(feedback_id: int, db: Session = Depends(get_db)):
+@router.delete("/{feedback_id}")
+async def delete_feedback(feedback_id: int, db: Session = Depends(get_db), user=Depends(get_admin_user)):
     success = feedback_service.delete_feedback(db, feedback_id)
     if not success:
         raise HTTPException(status_code=404, detail="Feedback not found")

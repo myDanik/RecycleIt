@@ -2,14 +2,14 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
-from app.schemas.user import UserCreate, UserLogin, Token
+from app.schemas.user import UserCreate, UserLogin, Token, UserRead, RefreshRequest
 from app.services.user import authenticate_user, create_user
-from app.auth.jwt_utils import create_access_token, create_refresh_token
+from app.auth.jwt_utils import create_access_token, create_refresh_token, decode_token
 
 router = APIRouter()
 
 
-@router.post("/register")
+@router.post("/register", response_model=UserRead)
 def register(data: UserCreate, db: Session = Depends(get_db)):
     return create_user(db, data)
 
@@ -21,7 +21,22 @@ def login(data: UserLogin, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
     return {
-        "access_token": create_access_token(user.id),
+        "access_token": create_access_token(user.id, user.role),
         "refresh_token": create_refresh_token(user.id),
         "token_type": "bearer",
+        "role": user.role,
+        "id": user.id,
+        "username": user.username,
+    }
+
+@router.post("/refresh")
+def refresh_token(data: RefreshRequest):
+    payload = decode_token(data.refresh_token)
+    
+    if not payload or payload.get("type") != "refresh":
+        raise HTTPException(status_code=401, detail="Invalid refresh token")
+    
+    user_id = int(payload["sub"])
+    return {
+        "access_token": create_access_token(user_id),
     }

@@ -30,6 +30,7 @@ def create_user(db: Session, payload: UserCreate) -> User:
         password_hash=_hash_password(payload.password),
         created_at=datetime.utcnow(),
         updated_at=datetime.utcnow(),
+        role="admin",
     )
     db.add(user)
     try:
@@ -42,6 +43,9 @@ def create_user(db: Session, payload: UserCreate) -> User:
         db.rollback()
         raise
     return user
+
+def list_users(db: Session) -> List[User]:
+    return db.query(User).all()
 
 
 def get_user(db: Session, user_id: int) -> Optional[User]:

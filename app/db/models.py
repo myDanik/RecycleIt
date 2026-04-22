@@ -10,10 +10,12 @@ from sqlalchemy import (
     ForeignKey,
     Text,
     SmallInteger,
+    Enum
 )
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
+import enum
 
 Base = declarative_base()
 
@@ -23,6 +25,7 @@ class Point(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255), nullable=False)
+    photo_key = Column(String, nullable=True)
     address = Column(String(1024), nullable=True)
     waste_types = Column(ARRAY(String), nullable=True)
     opens_at = Column(Time, nullable=True)
@@ -40,6 +43,11 @@ class Point(Base):
     )
 
 
+class UserRole(str, enum.Enum):
+    user = "user"
+    admin = "admin"
+
+
 class User(Base):
     __tablename__ = "users"
 
@@ -47,6 +55,7 @@ class User(Base):
     username = Column(String(32), unique=True, nullable=False, index=True)
     email = Column(String(255), unique=True, nullable=False, index=True)
     password_hash = Column(String(255), nullable=False)
+    role = Column(Enum(UserRole), default=UserRole.user)
     created_at = Column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )
@@ -71,3 +80,5 @@ class Feedback(Base):
     message = Column(Text, nullable=False)
     rating = Column(SmallInteger, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+

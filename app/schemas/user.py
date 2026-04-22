@@ -11,6 +11,7 @@ class UserRead(BaseModel):
     id: int
     username: str
     email: str
+    role: str
 
 
 class UserBase(BaseModel):
@@ -34,3 +35,9 @@ class Token(BaseModel):
     access_token: str
     refresh_token: str
     token_type: str = "bearer"
+    role: str
+    id: int
+    username: str
+
+class RefreshRequest(BaseModel):
+    refresh_token: str
