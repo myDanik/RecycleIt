@@ -1,11 +1,11 @@
 from fastapi import APIRouter, HTTPException, Depends, Query, UploadFile, File
 from sqlalchemy.orm import Session
-from typing import Optional, List
+from typing import Optional
 
 from app.schemas.points import PointUpdate, PointBase
 from app.services import points, storage
 from app.db.session import get_db
-from app.auth.deps import get_current_user, get_admin_user
+from app.auth.deps import get_admin_user
 
 
 router = APIRouter()

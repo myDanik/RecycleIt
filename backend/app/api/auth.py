@@ -1,5 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
+
 
 from app.db.session import get_db
 from app.schemas.user import UserCreate, UserLogin, Token, UserRead, RefreshRequest
@@ -13,7 +15,7 @@ router = APIRouter()
 def register(data: UserCreate, db: Session = Depends(get_db)):
     try:
         return create_user(db, data)
-    except:
+    except IntegrityError:
         raise HTTPException(status_code=422, detail="User already exists")
 
 

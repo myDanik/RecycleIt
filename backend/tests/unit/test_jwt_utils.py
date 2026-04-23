@@ -1,5 +1,4 @@
 import pytest
-import time
 
 pytestmark = pytest.mark.unit
 

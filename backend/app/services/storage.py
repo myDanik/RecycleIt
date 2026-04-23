@@ -1,4 +1,5 @@
-import boto3, uuid, os
+import boto3
+import uuid
 from botocore.config import Config
 from app.config import settings
 

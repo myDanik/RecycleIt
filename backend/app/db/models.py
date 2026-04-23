@@ -12,9 +12,7 @@ from sqlalchemy import (
     SmallInteger,
     Enum
 )
-from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.ext.declarative import declarative_base
-from datetime import datetime
 import enum
 
 Base = declarative_base()

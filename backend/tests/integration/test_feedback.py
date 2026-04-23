@@ -24,7 +24,7 @@ class TestListFeedback:
         assert isinstance(resp.json(), list)
 
     def test_list_feedback_filter_by_point_id(self, client):
-        with patch("app.api.feedback.feedback_service.list_feedbacks", return_value=[]) as mock_list:
+        with patch("app.api.feedback.feedback_service.list_feedbacks", return_value=[]):
             resp = client.get("/feedback/?point_id=1")
         assert resp.status_code == 200
 

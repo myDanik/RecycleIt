@@ -1,0 +1,124 @@
+:root{
+  --bg: #f3f4f6;
+  --topbar-bg: linear-gradient(180deg, #f5fdf3, #f1f6ef);
+  --sidebar-width: 360px;
+  --muted: #6b7280;
+  --accent: #7fb288;
+}
+
+input, textarea, select {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #1976d2;
+}
+
+*{box-sizing:border-box}
+body,html,#root{height:100%;margin:0;font-family:Inter, Arial, sans-serif;background:var(--bg);color:#111}
+
+.page-top{padding:12px 18px}
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:var(--topbar-bg);
+  padding:10px 16px;
+  border-radius:8px;
+  border:1px solid rgba(0,0,0,0.04);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04) inset;
+}
+.topbar .brand .logo{font-weight:700;color:#2a5b2a}
+.topbar .controls{display:flex;gap:8px}
+.control-btn{border:1px solid rgba(0,0,0,0.06);background:white;padding:6px 10px;border-radius:18px;font-size:13px;cursor:pointer;text-decoration:none;color:#222; margin: 2px;}
+
+
+.content-row{display:flex;gap:20px;padding:18px}
+.map-area{flex:1;min-width:520px}
+.sidebar-area{width:var(--sidebar-width)}
+
+.map-container{height:calc(100vh - 120px);display:flex;flex-direction:column}
+.map-inner{
+  flex:1;background:#fff;border-radius:6px;border:1px solid rgba(0,0,0,0.06);
+  box-shadow:0 6px 18px rgba(0,0,0,0.06);
+  display:flex;align-items:center;justify-content:center;padding:12px;
+}
+.map-hint img {width: 100%;height: 100%;object-fit: cover;
+}
+
+.sidebar-shell{
+  height:calc(100vh - 120px);
+  display:flex;flex-direction:column;background:#fff;border-radius:6px;padding:14px;border:1px solid rgba(0,0,0,0.06);
+  box-shadow:0 6px 18px rgba(0,0,0,0.04);
+}
+.sidebar-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.sidebar-title{margin:0;font-size:16px}
+.sidebar-mini-nav a{margin-left:8px;text-decoration:none;color:var(--muted);font-size:13px}
+.sidebar-content{flex:1;overflow:auto;padding-right:6px}
+.sidebar-footer{padding-top:8px;text-align:center;font-size:12px;color:var(--muted);border-top:1px dashed #f0f3f0}
+
+.list{display:flex;flex-direction:column;gap:8px}
+.list-item{
+  display:flex;justify-content:space-between;gap:12px;padding:12px;border-radius:6px;border:1px solid rgba(0,0,0,0.04);
+  background:linear-gradient(180deg,#fff,#fbfdfb);
+}
+.list-item-left{flex:1}
+.item-name{font-weight:600;margin-bottom:4px}
+.item-address{font-size:13px;color:var(--muted);margin-bottom:6px}
+.item-types{font-size:13px;color:#2f6f2f;padding:4px 8px;background:#f2faf2;border-radius:12px;display:inline-block}
+.list-item-right{text-align:right;min-width:100px}
+.item-hours{font-size:12px;color:var(--muted);margin-bottom:8px}
+.item-rating{font-weight:600}
+
+.filters-block h4{margin:8px 0 6px 0}
+.chk{display:flex;align-items:center;gap:8px;margin:6px 0;color:var(--muted)}
+.filters-actions{display:flex;justify-content:space-between;margin-top:12px}
+
+.filters-note{margin-bottom: 5px;}
+
+.types-row{display:flex;gap:8px;margin:8px 0}
+.tag{background:#eaf6ea;color:#2a6f2a;padding:6px 10px;border-radius:16px;font-size:13px}
+
+.field{display:flex;flex-direction:column;margin-bottom:12px}
+textarea{resize:vertical;padding:8px;border-radius:6px;border:1px solid #e6e6e6; margin: 3px;}
+.stars{font-size:20px;color:#d1d5db}
+
+.btn{background:var(--accent);color:#fff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer}
+.btn.ghost{background:transparent;border:1px solid rgba(0,0,0,0.06);color:#333}
+
+
+.review {
+  background-color: #f5f5f5;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.review-name {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.review-text {
+  margin-bottom: 0.5rem;
+}
+
+.review-meta {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+@media (max-width:1100px){
+  .map-area{min-width:320px}
+}
+@media (max-width:800px){
+  .content-row{flex-direction:column}
+  .map-area{order:1}
+  .sidebar-area{order:2;width:100%}
+  .map-container{height:48vh}
+  .sidebar-shell{height:auto}
+}

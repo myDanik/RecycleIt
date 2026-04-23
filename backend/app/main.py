@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 import time
 from app.api.routers import include_routers
 from app.config import settings
-from app.db.session import engine, Base
 
 
 _start_time = time.time()

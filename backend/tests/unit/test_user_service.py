@@ -1,5 +1,5 @@
 import pytest
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 from sqlalchemy.exc import IntegrityError
 
 pytestmark = pytest.mark.unit
@@ -44,7 +44,7 @@ class TestCreateUser:
         payload = UserCreate(username="alice", email="alice@test.com", password="pass123")
         mock_db.refresh = MagicMock()
 
-        result = create_user(mock_db, payload)
+        create_user(mock_db, payload)
 
         mock_db.add.assert_called_once()
         mock_db.commit.assert_called_once()

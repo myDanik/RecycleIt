@@ -26,7 +26,7 @@ class TestGetPoints:
         assert isinstance(resp.json(), list)
 
     def test_get_points_with_filter_q(self, client):
-        with patch("app.api.points.points.list_points", return_value=[]) as mock_list:
+        with patch("app.api.points.points.list_points", return_value=[]):
             resp = client.get("/points/?q=пластик")
         assert resp.status_code == 200
 
